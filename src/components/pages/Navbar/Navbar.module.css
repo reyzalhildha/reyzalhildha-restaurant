@@ -1,0 +1,42 @@
+.navbar {
+  background-color: black;
+  color: white;
+  padding: 1em 2em;
+  display: flex;
+  justify-content: space-between;
+}
+.navbar h1 {
+  display: flex;
+}
+.navbar div {
+  width: 100%;
+}
+.navbar :nth-child(1) {
+  display: flex;
+  justify-content: left;
+}
+.navbar :nth-child(2) {
+  display: flex;
+  justify-content: center;
+}
+.navbar :nth-child(3) {
+  display: flex;
+  justify-content: right;
+}
+.listNavbar {
+  text-decoration: none;
+  gap: 1em;
+  display: flex;
+  width: auto;
+  padding: 0;
+  align-items: center;
+  padding: 0 1em;
+}
+.listNavbar :hover {
+  color: red;
+}
+.listNavbar a {
+  color: white;
+  margin: 0;
+  padding: 0;
+}
