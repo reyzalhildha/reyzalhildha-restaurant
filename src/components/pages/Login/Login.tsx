@@ -1,5 +1,5 @@
 import { FormEvent } from 'react';
-import Button from '../../ui/Button';
+import Button from '../../ui/CButton';
 import Input from '../../ui/Input';
 import styles from './Login.module.css';
 import { login } from '../../../services/auth.service';

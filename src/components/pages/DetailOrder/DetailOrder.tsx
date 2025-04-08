@@ -1,8 +1,8 @@
-import { Link, useParams } from 'react-router-dom';
-import styles from './DetailOrder.module.css';
-import { useEffect, useState } from 'react';
-import { getOrderById } from '../../../services/order.service';
-import Button from '../../ui/Button';
+import { useParams } from "react-router-dom";
+import styles from "./DetailOrder.module.css";
+import { useEffect, useState } from "react";
+import { getOrderById } from "../../../services/order.service";
+import CButton from "../../ui/CButton";
 
 const DetailOrder = () => {
   const { id } = useParams();
@@ -15,13 +15,18 @@ const DetailOrder = () => {
     fetchOrder();
   }, []);
   console.log(order);
+
+  function handleBack() {
+    window.history.back();
+  }
+
   return (
     <main className={styles.detail}>
       <section className={styles.header}>
-        <h1>Detail Order</h1>
-        <Link to="/orders">
-          <Button>Back</Button>
-        </Link>
+        <div className={styles.flex}>
+          <h1>Detail Order</h1>
+          <CButton onClick={() => handleBack()}>Back</CButton>
+        </div>
       </section>
       <section>
         <div className={styles.order}>

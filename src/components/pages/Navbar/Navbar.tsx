@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styles from "./Navbar.module.css";
-import Button from "../../ui/Button";
+import Button from "../../ui/CButton";
 import { useEffect, useState } from "react";
 import { TiPiOutline } from "react-icons/ti";
 
@@ -33,8 +33,7 @@ const Navbar = () => {
       </div>
       <div className={styles.listNavbar}>
         <Link to={"/"}>Home</Link>
-        <Link to={"/cart"}>Cart</Link>
-        <Link to={"/order"}>Order</Link>
+        <Link to={"/orders"}>Order</Link>
       </div>
       <div>
         {btn ? (
