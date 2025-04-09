@@ -33,10 +33,11 @@
   padding: 0 1em;
 }
 .listNavbar :hover {
-  color: red;
+  color: #989898;
 }
 .listNavbar a {
   color: white;
+  font-weight: bold;
   margin: 0;
   padding: 0;
 }

@@ -13,7 +13,29 @@ export const getAllMenu = async () => {
 };
 
 export const getMenu = async (category?: string) => {
-  let url = `${environment.API_URL}/menu?page=1&pageSize=6`;
+  let url = `${environment.API_URL}/menu?page=1&pageSize=10`;
+  if (category) {
+    url += `&category=${category}`;
+  }
+  const result = await fetchAPI(url, {
+    method: 'GET',
+  }).then((data) => data);
+
+  return result;
+};
+
+export const getMenuById = async (id: string) => {
+  let url = `${environment.API_URL}/menu[${id}]`;
+  
+  const result = await fetchAPI(url, {
+    method: 'GET',
+  }).then((data) => data);
+
+  return result;
+};
+
+export const getMenuPaging = async (category: string, offset: number, limit: number) => {
+  let url = `${environment.API_URL}/menu?page=${offset}&pageSize=${limit}`;
   if (category) {
     url += `&category=${category}`;
   }
@@ -88,6 +110,16 @@ export const updateOrder = async (
     },
     body: JSON.stringify(payload),
   });
+
+  return result;
+};
+
+export const searchOrder = async (search: string) => {
+  let url = `${environment.API_URL}/menu?search=${search}`;
+  
+  const result = await fetchAPI(url, {
+    method: 'GET',
+  }).then((data) => data);
 
   return result;
 };

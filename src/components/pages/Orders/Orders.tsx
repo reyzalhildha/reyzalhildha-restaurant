@@ -5,7 +5,7 @@ import {
   getOrders,
   updateOrder,
 } from '../../../services/order.service';
-import Button from '../../ui/Button';
+import CButton from '../../ui/CButton';
 import { Link } from 'react-router-dom';
 
 const Orders = () => {
@@ -46,11 +46,11 @@ const Orders = () => {
         <h1 className={styles.title}>Order List</h1>
         <div className={styles.button}>
           <Link to="/create">
-            <Button>Create Order</Button>
+            <CButton>Create Order</CButton>
           </Link>
-          <Button color="secondary" onClick={handleLogout}>
+          <CButton color="secondary" onClick={handleLogout}>
             Logout
-          </Button>
+          </CButton>
         </div>
       </section>
       <section>
@@ -80,23 +80,23 @@ const Orders = () => {
                 <td>{order.status}</td>
                 <td className={styles.action}>
                   <Link to={`/orders/${order.id}`}>
-                    <Button>Detail</Button>
+                    <CButton>Detail</CButton>
                   </Link>
                   {order.status === 'PROCESSING' && (
-                    <Button
+                    <CButton
                       onClick={() => handleCompleteOrder(order.id)}
                       color="success"
                     >
                       Completed
-                    </Button>
+                    </CButton>
                   )}
                   {order.status === 'COMPLETED' && (
-                    <Button
+                    <CButton
                       onClick={() => handleDeleteOrder(order.id)}
                       color="danger"
                     >
                       Delete
-                    </Button>
+                    </CButton>
                   )}
                 </td>
               </tr>

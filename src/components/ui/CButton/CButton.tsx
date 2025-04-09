@@ -1,4 +1,4 @@
-import styles from './Button.module.css';
+import styles from './CButton.module.css';
 
 interface Proptypes {
   type?: 'button' | 'submit' | 'reset';
@@ -8,7 +8,7 @@ interface Proptypes {
   color?: 'primary' | 'secondary' | 'success' | 'danger';
 }
 
-const Button = (props: Proptypes) => {
+const CButton = (props: Proptypes) => {
   const { type = 'button', children, color = 'primary' } = props;
   return (
     <button
@@ -21,4 +21,4 @@ const Button = (props: Proptypes) => {
   );
 };
 
-export default Button;
+export default CButton;

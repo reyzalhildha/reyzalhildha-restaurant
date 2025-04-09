@@ -1,36 +1,62 @@
 import { FormEvent, useEffect, useState } from "react";
 import styles from "./CreateOrder.module.css";
-import { createOrder, getAllMenu, getMenu } from "../../../services/order.service";
+import {
+  createOrder,
+  getMenu,
+  getMenuPaging,
+  searchOrder,
+} from "../../../services/order.service";
 import { Link, useSearchParams } from "react-router-dom";
-import CButton from "../../ui/Button";
+import CButton from "../../ui/CButton";
 import Input from "../../ui/Input";
 import Select from "../../ui/Select";
 import { CartItem, MenuItem } from "../../../types/order";
 import { filters, tables } from "./CreateOrder.constants";
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
 import { Dialog } from "primereact/dialog";
+import {
+  AutoComplete,
+  AutoCompleteCompleteEvent,
+} from "primereact/autocomplete";
+
+interface MenuResto {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  image_url: string;
+  category: string;
+  is_available: boolean;
+  created_at: string;
+}
 
 const CreateOrder = () => {
   const [menu, setMenu] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [carts, setCarts] = useState<CartItem[]>([]);
   const [visible, setVisible] = useState(false);
-  const [first, setFirst] = useState<number>(0);
-  const [rows, setRows] = useState<number>(6);
-  const [totalRecords, setTotalRecords] = useState<number>(0);
+  const [first, setFirst] = useState<number>(1);
+  const [pageCount, setPageCount] = useState<number>();
+  const [value, setValue] = useState<MenuResto | string>("");
+  const [items, setItems] = useState<MenuResto[]>([]);
 
   const onPageChange = (event: PaginatorPageChangeEvent) => {
-    setFirst(event.first);
-    setRows(event.rows);
+    setFirst(event.page + 1); // Mengubah indeks halaman agar tidak berbasis kelipatan 10
+    const results = getMenuPaging(
+      searchParams.get("category") as string,
+      event.page + 1,
+      event.rows
+    );
+    results.then(res => {
+      setMenu(res.data);
+    });
   };
 
   useEffect(() => {
     const fetchMenu = async () => {
       const result = await getMenu(searchParams.get("category") as string);
       setMenu(result.data);
-      const allMenu = await getAllMenu();
-      setTotalRecords(allMenu.metadata.total);
-
+      setPageCount(result.metadata.total);
     };
     fetchMenu();
   }, [searchParams.get("category")]);
@@ -97,11 +123,28 @@ const CreateOrder = () => {
     </div>
   );
 
+  const search = (event: AutoCompleteCompleteEvent) => {
+    searchOrder(event.query).then(res => {
+      setItems(
+        res.data.map((item: MenuResto) => item.name + ": " + item.description)
+      );
+    });
+  };
+
   return (
     <>
       <div className={styles.create}>
         <div className={styles.menu}>
           <h1>Explore Our Best Menu</h1>
+          <div>
+            <AutoComplete
+              value={value}
+              suggestions={items}
+              completeMethod={search}
+              onChange={e => setValue(e.value)}
+              placeholder="Search Menu" 
+            />
+          </div>
           <div className={styles.filter}>
             {filters.map(filter => (
               <CButton
@@ -145,10 +188,13 @@ const CreateOrder = () => {
 
           <div className="card">
             <Paginator
-              first={first}
-              rows={rows}
-              totalRecords={totalRecords}
+              first={(first - 1) * 10} // Konversi kembali agar sesuai dengan totalRecords
+              rows={10}
+              totalRecords={pageCount}
               onPageChange={onPageChange}
+              template={{
+                layout: "PrevPageLink CurrentPageReport NextPageLink",
+              }}
             />
           </div>
         </div>
