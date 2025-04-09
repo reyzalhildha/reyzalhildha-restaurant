@@ -1,3 +1,3 @@
-import Orders from './Orders';
+import Navbar from './Navbar';
 
-export default Orders;
+export default Navbar;
